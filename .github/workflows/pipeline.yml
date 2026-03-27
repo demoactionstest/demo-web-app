@@ -1,12 +1,10 @@
-# Crie um pipeline para uma aplicação .Net 6 em GitHub Actions
+name: .net 6
 
-name: .NET 6
-
-on:
+on: 
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]  
+  pull_request: 
+    branches: [ main ]
 
 jobs:
   build:
@@ -18,43 +16,22 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
-
+        dornet-version: 6.0.x
+    
     - name: Install dependencies
       run: dotnet restore
 
-    - name: Build
+    - name: Build 
       run: dotnet build --no-restore
 
     - name: Publish
       run: dotnet publish --no-restore --no-build --output ./publish
 
-# inclua um upload do artefato
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
         name: publish
         path: ./publish
 
-# inclua um job de deployment
 
-  deploy:
-    needs: build
-    environment: desenvolvimento
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: publish
-        path: ./publish
-
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'demolinkedin'
-        package: ./publish
+    
