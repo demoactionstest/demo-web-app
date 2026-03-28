@@ -34,5 +34,17 @@ jobs:
         name: publish
         path: ./publish
 
+# inclua um job de deployment
 
-    
+  deploy:
+    needs: build
+    environment: desenvolvimento
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: publish
+        path: ./publish
+
+   
